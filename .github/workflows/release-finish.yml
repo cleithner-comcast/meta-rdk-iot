@@ -46,10 +46,17 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+
+      - name: Fetch all branches
+        run: |
+          git fetch origin main:main
+          git fetch origin develop:develop
+          git fetch origin ${{ steps.extract_release.outputs.branch_name }}
       
       - name: Initialize git-flow
         run: |
           # Initialize git-flow with default settings
+          git config gitflow.branch.master main
           git flow init -d
       
       - name: Extract release name
@@ -60,12 +67,6 @@ jobs:
           echo "release_name=$RELEASE_NAME" >> $GITHUB_OUTPUT
           echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
           echo "Extracted release name: $RELEASE_NAME"
-      
-      - name: Fetch all branches
-        run: |
-          git fetch origin main:main
-          git fetch origin develop:develop
-          git fetch origin ${{ steps.extract_release.outputs.branch_name }}
       
       - name: Finish git-flow release
         run: |
