@@ -50,6 +50,7 @@ jobs:
       - name: Initialize git-flow
         run: |
           # Initialize git-flow with default settings
+          git config gitflow.branch.master main
           git flow init -d
       
       - name: Extract release name
