@@ -56,6 +56,8 @@ jobs:
           echo "Release branch $RELEASE_BRANCH does not exist, proceeding..."
       
       - name: Start git-flow release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "🚀 Starting git-flow release: ${{ github.event.inputs.release_name }}"
           git flow release start ${{ github.event.inputs.release_name }}
